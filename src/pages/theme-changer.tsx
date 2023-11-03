@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, FC } from "react";
-import { GetServerSideProps } from 'next'
+import { GetServerSideProps } from "next";
 import {
   Card,
   CardContent,
@@ -12,14 +12,14 @@ import {
 import Cookies from "js-cookie";
 import { Layout } from "@/components/layouts";
 
-const ThemeChanger: FC = (props) => {
-  console.log(props);
+interface Props {
+  theme: string;
+}
 
-  const [currentTheme, setCurrentTheme] = useState("light");
+const ThemeChanger = ({ theme }: Props) => {
+  const [currentTheme, setCurrentTheme] = useState(theme);
 
   const onThemeChange = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log("adasd");
-
     const selectedTheme = event.target.value;
     Cookies.set("theme", selectedTheme);
     setCurrentTheme(selectedTheme);
@@ -54,15 +54,14 @@ const ThemeChanger: FC = (props) => {
 // You should use getServerSideProps when:
 // - Only if you need to pre-render a page whose data must be fetched at request time
 
-export const getServerSideProps: GetServerSideProps = async ({req}) => {
-
-  const {theme = 'light', name = 'Stefano'} = req.cookies;
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const { theme = "light", name = "Stefano" } = req.cookies;
   return {
     props: {
       theme,
-      name
-    }
-  }
-}
+      name,
+    },
+  };
+};
 
 export default ThemeChanger;
